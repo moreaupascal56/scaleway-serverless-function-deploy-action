@@ -1,0 +1,72 @@
+name: Scaleway Serverless Container Deploy
+description: Allows you to deploy your Docker containers in to Scaleway Serverless beta.
+author: Pascal Moreau
+branding:
+  icon: 'grid'
+  color: 'purple'
+inputs:
+  SCW_REGION:
+    description: |
+      Scaleway region ID.
+      Currently only fr-par supports Serverless but could also be nl-ams or pl-waw in future.
+    required: true
+    default: 'fr-par'
+  SCW_FUNCTION_NAME:
+    description: |
+      The UUID of the container.
+      This Action does not create containers, only update existing ones. You therefore need a container to be created initially, and take the ID from that.
+      The ID can be found in the URL, or the API.
+    required: true
+  SCW_NAMESPACE_ID:
+    description: |
+      The secret API key used to access Scaleway.
+      This is generated from the Credentials page.
+      This key must be for the right Organization.
+      The key must have access to the Container Registry and theServerless
+      Note that Access Key is not used,
+    required: true
+  SCW_RUNTIME:
+    description: |
+      The URL for the registry, image, and version to use in the container.
+      i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        sparse-checkout: |
+          src
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Zip and Push
+      shell: bash
+      run: |
+        pip install --target package/ -r requirements.txt
+        zip -r functions.zip src/ package/
+
+    - name: Use SCW CLI
+      uses: scaleway/action-scw@v0
+      with:
+        save-config: true
+        export-config: true
+        version: v2.24.0
+        access-key: ${{ secrets.SCW_ACCESS_KEY }}
+        secret-key: ${{ secrets.SCW_SECRET_KEY }}
+        default-project-id: ${{ secrets.SCW_DEFAULT_PROJECT_ID }}
+        default-organization-id: ${{ secrets.SCW_DEFAULT_ORGANIZATION_ID }}
+
+    - name: Deploy function to Scaleway
+      shell: bash
+      run: |
+        scw function deploy \
+          name=${{ inputs.SCW_FUNCTION_NAME }} \
+          namespace-id=${{ inputs.SCW_NAMESPACE_ID }} \
+          runtime=${{ inputs.SCW_RUNTIME }} \
+          region=${{ inputs.SCW_REGION }} \
+          zip-file=functions.zip
+
