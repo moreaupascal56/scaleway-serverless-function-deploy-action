@@ -26,3 +26,6 @@ jobs:
           SCW_RUNTIME: ${{ env.SCW_RUNTIME }}
 
 
+          function_root: tests/src
+          requirements_txt_path: tests/requirements.txt
+
