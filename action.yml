@@ -38,10 +38,10 @@ runs:
         sparse-checkout: |
           src
 
-    - name: Set up Python 3.8
+    - name: Set up Python 3.12
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8
+        python-version: 3.12
 
     - name: Zip and Push
       shell: bash
@@ -55,10 +55,10 @@ runs:
         save-config: true
         export-config: true
         version: v2.24.0
-        access-key: ${{ secrets.SCW_ACCESS_KEY }}
-        secret-key: ${{ secrets.SCW_SECRET_KEY }}
-        default-project-id: ${{ secrets.SCW_DEFAULT_PROJECT_ID }}
-        default-organization-id: ${{ secrets.SCW_DEFAULT_ORGANIZATION_ID }}
+        access-key: ${{ inputs.SCW_ACCESS_KEY }}
+        secret-key: ${{ inputs.SCW_SECRET_KEY }}
+        default-project-id: ${{ inputs.SCW_DEFAULT_PROJECT_ID }}
+        default-organization-id: ${{ inputs.SCW_DEFAULT_ORGANIZATION_ID }}
 
     - name: Deploy function to Scaleway
       shell: bash
