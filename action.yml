@@ -57,7 +57,7 @@ runs:
     - name: Zip and Push
       shell: bash
       run: |
-        pip install --target package/ -r ${{ inputs.requirements_txt_path }}/
+        pip install --target package/ -r ${{ inputs.requirements_txt_path }}
         zip -r functions.zip ${{ inputs.function_root }}/ package/
 
     - name: Use SCW CLI
