@@ -30,7 +30,6 @@ inputs:
       The URL for the registry, image, and version to use in the container.
       i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
     required: true
-
   function_root:
     description: |
       The URL for the registry, image, and version to use in the container.
