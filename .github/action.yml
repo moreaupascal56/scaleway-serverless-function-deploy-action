@@ -1,0 +1,28 @@
+---
+name: Test Action
+
+on: [push]
+
+jobs:
+  test_action:
+    runs-on: ubuntu-latest
+    name: Test Action
+    env:
+      SCW_REGION: fr-par
+      SCW_FUNCTION_NAME: hello-world
+      SCW_NAMESPACE_ID: edb6f264-dbfc-4346-8201-12f9d3a9ce5b
+      SCW_RUNTIME: python312
+    steps:
+      - uses: moreaupascal56/scaleway-serverless-deploy-action@main
+        with:
+          access-key: ${{ secrets.SCW_ACCESS_KEY }}
+          secret-key: ${{ secrets.SCW_SECRET_KEY }}
+          default-project-id: ${{ secrets.SCW_DEFAULT_PROJECT_ID }}
+          default-organization-id: ${{ secrets.SCW_DEFAULT_ORGANIZATION_ID }}
+
+          SCW_REGION: ${{ env.SCW_REGION }}
+          SCW_FUNCTION_NAME: ${{ env.SCW_FUNCTION_NAME }}
+          SCW_NAMESPACE_ID: ${{ env.SCW_NAMESPACE_ID }}
+          SCW_RUNTIME: ${{ env.SCW_RUNTIME }}
+
+
