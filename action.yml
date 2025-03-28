@@ -40,6 +40,26 @@ inputs:
       The URL for the registry, image, and version to use in the container.
       i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
     required: true
+  SCW_ACCESS_KEY:
+    description: |
+      The URL for the registry, image, and version to use in the container.
+      i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
+    required: true
+  SCW_SECRET_KEY:
+    description: |
+      The URL for the registry, image, and version to use in the container.
+      i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
+    required: true
+  SCW_DEFAULT_PROJECT_ID:
+    description: |
+      The URL for the registry, image, and version to use in the container.
+      i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
+    required: true
+  SCW_DEFAULT_ORGANIZATION_ID:
+    description: |
+      The URL for the registry, image, and version to use in the container.
+      i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
+    required: true
 
 runs:
   using: "composite"
