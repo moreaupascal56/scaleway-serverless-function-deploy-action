@@ -30,13 +30,25 @@ inputs:
       The URL for the registry, image, and version to use in the container.
       i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
     required: true
+
+  function_root:
+    description: |
+      The URL for the registry, image, and version to use in the container.
+      i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
+    required: true
+  requirements_txt_path:
+    description: |
+      The URL for the registry, image, and version to use in the container.
+      i.e.: rg.fr-par.scw.cloud/example-registry/example-image:latest
+    required: true
+
 runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
       with:
         sparse-checkout: |
-          src
+          ${{ inputs.function_root }}
 
     - name: Set up Python 3.12
       uses: actions/setup-python@v2
@@ -47,7 +59,7 @@ runs:
       shell: bash
       run: |
         pip install --target package/ -r requirements.txt
-        zip -r functions.zip src/ package/
+        zip -r functions.zip ${{ inputs.function_root }}/ ${{ inputs.requirements_txt_path }}/
 
     - name: Use SCW CLI
       uses: scaleway/action-scw@v0

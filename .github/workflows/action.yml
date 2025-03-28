@@ -25,5 +25,8 @@ jobs:
           SCW_FUNCTION_NAME: ${{ env.SCW_FUNCTION_NAME }}
           SCW_NAMESPACE_ID: ${{ env.SCW_NAMESPACE_ID }}
           SCW_RUNTIME: ${{ env.SCW_RUNTIME }}
+          function_root: tests/src
+          requirements_txt_path: tests/requirements.txt
+
 
 
