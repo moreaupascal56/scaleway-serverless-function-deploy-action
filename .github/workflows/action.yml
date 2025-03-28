@@ -1,0 +1,35 @@
+---
+name: Test Action
+
+on: [push]
+
+jobs:
+  test_action:
+    runs-on: ubuntu-latest
+    name: Test Action
+    env:
+      SCW_REGION: fr-par
+      SCW_FUNCTION_NAME: hello-world
+      SCW_NAMESPACE_ID: edb6f264-dbfc-4346-8201-12f9d3a9ce5b
+      SCW_RUNTIME: python311
+    steps:
+
+      - name: Use SCW CLI
+        uses: scaleway/action-scw@v0
+        with:
+          save-config: true
+          export-config: true
+          version: v2.24.0
+          access-key: ${{ secrets.SCW_ACCESS_KEY }}
+          secret-key: ${{ secrets.SCW_SECRET_KEY }}
+          default-project-id: ${{ secrets.SCW_DEFAULT_PROJECT_ID }}
+          default-organization-id: ${{ secrets.SCW_DEFAULT_ORGANIZATION_ID }}
+
+      - uses: moreaupascal56/scaleway-serverless-deploy-action@main
+        with:
+          function_dir: tests/src
+          requirements_txt_path: tests/requirements.txt
+          scw_function_name: ${{ env.SCW_FUNCTION_NAME }}
+          scw_namespace_id: ${{ env.SCW_NAMESPACE_ID }}
+          scw_region: ${{ env.SCW_REGION }}
+          scw_runtime: ${{ env.SCW_RUNTIME }}

@@ -1,0 +1,70 @@
+name: Scaleway Serverless Function Deploy
+description: Allows you to deploy your Function in to Scaleway Serverless.
+author: Pascal Moreau
+branding:
+  icon: 'grid'
+  color: 'purple'
+
+inputs:
+  function_dir:
+    description: |
+      The directory containing your function.
+    required: true
+  requirements_txt_path:
+    description: |
+      The path to the requirements.txt file.
+    required: true
+  scw_function_name:
+    description: |
+      Scaleway function name for Scaleway CLI.
+      Documentation from Scaleway CLI:
+        https://github.com/scaleway/scaleway-cli/blob/master/docs/commands/function.md#deploy-a-function
+    required: true
+  scw_namespace_id:
+    description: |
+      Scaleway namespace ID for Scaleway CLI.
+      Documentation from Scaleway CLI:
+        https://github.com/scaleway/scaleway-cli/blob/master/docs/commands/function.md#deploy-a-function
+    required: true
+  scw_runtime:
+    description: |
+      Scaleway Runtime for Scaleway CLI.
+      Documentation from Scaleway CLI:
+        https://github.com/scaleway/scaleway-cli/blob/master/docs/commands/function.md#deploy-a-function
+    required: true
+  scw_region:
+    description: |
+      Scaleway region ID for Scaleway CLI.
+      Documentation from Scaleway CLI:
+        https://github.com/scaleway/scaleway-cli/blob/master/docs/commands/function.md#deploy-a-function
+    required: true
+    default: 'fr-par'
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        sparse-checkout: |
+          ${{ inputs.function_dir }}
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.12
+
+    - name: Zip and Push
+      shell: bash
+      run: |
+        pip install --target package/ -r ${{ inputs.requirements_txt_path }}
+        zip -r functions.zip ${{ inputs.function_dir }}/ package/
+
+    - name: Deploy function to Scaleway
+      shell: bash
+      run: |
+        scw function deploy \
+          name=${{ inputs.scw_function_name }} \
+          namespace-id=${{ inputs.scw_namespace_id }} \
+          runtime=${{ inputs.scw_runtime }} \
+          region=${{ inputs.scw_region }} \
+          zip-file=functions.zip
