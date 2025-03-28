@@ -25,7 +25,7 @@ jobs:
           default-project-id: ${{ secrets.SCW_DEFAULT_PROJECT_ID }}
           default-organization-id: ${{ secrets.SCW_DEFAULT_ORGANIZATION_ID }}
 
-      - uses: moreaupascal56/scaleway-serverless-deploy-action@main
+      - uses: moreaupascal56/scaleway-serverless-function-deploy-action@main
         with:
           function_dir: tests/src
           requirements_txt_path: tests/requirements.txt

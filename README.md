@@ -7,7 +7,7 @@ In your workflow use this Action like so, filling in the arguments with your own
 
 ```yml
       - name: Deploy function to Scaleway
-        uses: moreaupascal56/scaleway-serverless-deploy-action@main
+        uses: moreaupascal56/scaleway-serverless-function-deploy-action@main
         with:
           function_dir: relative_path_to_the_dir_containing_your_function
           requirements_txt_path: relative_path_to_the_requirements.txt
