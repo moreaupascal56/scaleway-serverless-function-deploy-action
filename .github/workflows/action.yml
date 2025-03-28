@@ -11,7 +11,7 @@ jobs:
       SCW_REGION: fr-par
       SCW_FUNCTION_NAME: hello-world
       SCW_NAMESPACE_ID: edb6f264-dbfc-4346-8201-12f9d3a9ce5b
-      SCW_RUNTIME: python312
+      SCW_RUNTIME: python3
     steps:
       - uses: moreaupascal56/scaleway-serverless-deploy-action@main
         with:
